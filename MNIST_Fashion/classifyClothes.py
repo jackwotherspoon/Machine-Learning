@@ -38,7 +38,7 @@ model.compile(optimizer='adam',
 
 # Train the model
 batch_size = 32
-model.fit(x_train, y_train, batch_size, epochs=1)
+model.fit(x_train, y_train, batch_size, epochs=10)
 
 # Evaluate accuracy on test set
 test_loss , test_accuracy = model.evaluate(x_test, y_test, verbose=0)
