@@ -1,8 +1,6 @@
 #Import dependencies
 import tensorflow as tf
-import math
 import numpy as np
-import sys
 import matplotlib.pyplot as plt
 
 # Verify tensorflow version
