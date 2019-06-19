@@ -1,7 +1,8 @@
-#Import depenencies
+#Import dependencies
 import tensorflow as tf
 import math
 import numpy as np
+import sys
 import matplotlib.pyplot as plt
 
 # Verify tensorflow version
@@ -13,11 +14,13 @@ print("x_train shape:", x_train.shape, "x_test shape:", x_test.shape)
 
 # Show one of the images
 plt.imshow(x_train[0])
-plt.show()
+#plt.show()
 
-# Normalize the data so that they are the same scale
+# Normalize the data so that they are the same scale and flatten
 x_train = x_train.astype('float32') / 255
+x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)
 x_test = x_test.astype('float32') / 255
+x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)
 
 # Create sequential model architecture
 model = tf.keras.Sequential([
@@ -35,6 +38,9 @@ model.compile(optimizer='adam',
 
 # Train the model
 batch_size = 32
-train_dataset = x_train.repeat().shuffle(len(x_train)).batch(batch_size)
-test_dataset = x_test.batch(batch_size)
-model.fit(train_dataset, epochs=5, steps_per_epoch=math.ceil(len(train_dataset)/batch_size))
+model.fit(x_train, y_train, batch_size, epochs=1)
+
+# Evaluate accuracy on test set
+test_loss , test_accuracy = model.evaluate(x_test, y_test, verbose=0)
+print("Accuracy on test set is:", round(test_accuracy*100, 2), "%")
+
