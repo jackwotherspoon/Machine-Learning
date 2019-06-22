@@ -15,15 +15,18 @@ plt.imshow(x_train[0])
 #plt.show()
 
 # Normalize the data so that they are the same scale and flatten
-x_train = x_train.astype('float32') / 255
 x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)
-x_test = x_test.astype('float32') / 255
+x_train = x_train.astype('float32') / 255
 x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)
+x_test = x_test.astype('float32') / 255
 
-# Create sequential model architecture
+# Create sequential model architecture and add layers
 model = tf.keras.Sequential([
-    tf.keras.layers.Flatten(input_shape=(28,28,1)),      # transforms image from 2D array of 28x28 pixels to a 1D 1x728 pixels
+    tf.keras.layers.Conv2D(28, kernel_size=(3,3), input_shape=(28,28,1)), #convolutional 2D input layer
+    tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+    tf.keras.layers.Flatten(),                           # transforms image from 2D array of 28x28 pixels to a 1D 1x728 pixels
     tf.keras.layers.Dense(128, activation=tf.nn.relu),   # dense layer (hidden layer) of 128 neurons with relu activation function
+    tf.keras.layers.Dropout(0.2),                        # adding dropout to stop overfitting
     tf.keras.layers.Dense(10, activation=tf.nn.softmax)  # dense layer (output layer) of 10 neurons, one for each class
 ])
 # Look at model summary
@@ -35,7 +38,7 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 
 # Train the model
-batch_size = 32
+batch_size = 64
 model.fit(x_train, y_train, batch_size, epochs=10)
 
 # Evaluate accuracy on test set
