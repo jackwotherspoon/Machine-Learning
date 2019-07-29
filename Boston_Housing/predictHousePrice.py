@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from sklearn.datasets import load_boston
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 
@@ -24,20 +26,30 @@ print("Snapshot of dataframe with target values MEDV now shown :\n", boston.head
 print("Checking if any values are missing in dataset:\n", boston.isnull().sum())
 
 # plot median value of houses using seaborn
-sns.set(rc={'figure.figsize':(11.7,8.27)})
+sns.set(rc={'figure.figsize':(10,9)})
 sns.distplot(boston['MEDV'], bins=30)
-# plt.show()
+plt.show()
 
 # create correlation matrix to measure relationship between variables
+plt.figure(2)
 correlation_matrix = boston.corr().round(2)
 sns.heatmap(data = correlation_matrix, annot = True)
-#plt.show()
+plt.title("Correlation matrix of features")
+plt.show()
 
 # split data into training set and test set
 features = boston.drop('MEDV', axis = 1)
 labels   = boston['MEDV']
 X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size = 0.3, random_state = 5)
-print(X_train.shape)
-print(X_test.shape)
-print(Y_train.shape)
-print(Y_test.shape)
+# run a linear regression on model
+linear_model = LinearRegression()
+linear_model.fit(X_train, Y_train)
+predicted = linear_model.predict(X_test)
+
+# create plot of results for linear regression model
+plt.figure(3)
+plt.scatter(Y_test, predicted)
+plt.xlabel("Actual prices")
+plt.ylabel("Predicted prices")
+plt.title("Actual prices vs predicted prices")
+plt.show()
