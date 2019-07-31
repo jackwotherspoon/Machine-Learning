@@ -1,2 +1,2 @@
 # TensorFlow-Projects
-Compilation of ML projects using TensorFlow, Keras, Sci-kit, etc.
+Compilation of ML project tutorials using TensorFlow, Keras, Sci-kit, etc.
