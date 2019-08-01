@@ -41,10 +41,15 @@ plt.show()
 features = boston.drop('MEDV', axis = 1)
 labels   = boston['MEDV']
 X_train, X_test, Y_train, Y_test = train_test_split(features, labels, test_size = 0.3, random_state = 5)
+
 # run a linear regression on model
 linear_model = LinearRegression()
 linear_model.fit(X_train, Y_train)
 predicted = linear_model.predict(X_test)
+
+# calculate RMS and R2 on linear regression
+RMS = np.sqrt(mean_squared_error(Y_train, predicted))
+R2  = r2_score(Y_train, predict)
 
 # create plot of results for linear regression model
 plt.figure(3)
